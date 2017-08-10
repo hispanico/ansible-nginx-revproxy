@@ -1,4 +1,4 @@
-ansible-iptables
+ansible-nginx-revproxy
 =========
 [![Build Status](https://img.shields.io/travis/hispanico/ansible-nginx-revproxy.svg?style=flat-square)](https://travis-ci.org/hispanico/ansible-nginx-revproxy)
 [![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx-revproxy-blue.svg?style=flat-square)](https://galaxy.ansible.com/hispanico/nginx-revproxy/)
@@ -16,7 +16,7 @@ Role Variables
 Default values:
 
 ```yaml
-sites:                                                        # List of sites
+nginx_revproxy_sites:                                                        # List of sites
   example.com:                                                # Domain name
     domains:                                                  # List of server_name aliases
       - example.com
@@ -40,7 +40,7 @@ Example Playbook
     roles:
       - ansible-nginx-revproxy
     vars:
-      sites:
+      nginx_revproxy_sites:
         example.com:
           domains:
             - example.com

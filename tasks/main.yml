@@ -18,21 +18,21 @@
     dest=/etc/nginx/sites-available/{{ item.key }}.conf
     owner=root
     group=root
-  with_dict: "{{ sites }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
   tags:
     - nginx-revproxy
 
 - name: Get Active Sites
   shell: ls -1 /etc/nginx/sites-enabled/
   register: active
-  changed_when: "active.stdout_lines != sites.keys()"
+  changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()"
   tags:
     - nginx-revproxy
 
 - name: De-activate Sites
   file: path=/etc/nginx/sites-enabled/{{ item }} state=absent
   with_items: "{{ active.stdout_lines }}"
-  when: item not in sites
+  when: item not in nginx_revproxy_sites
   notify: Reload Nginx
   tags:
     - nginx-revproxy
@@ -40,14 +40,14 @@
 - name: Get WebRoot Sites
   shell: ls -1 /var/www/
   register: webroot
-  changed_when: "webroot.stdout_lines != sites.keys()"
+  changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()"
   tags:
     - nginx-revproxy
 
 - name: Remove WebRoot Sites
   file: path=/var/www/{{ item }}/ state=absent
   with_items: "{{ webroot.stdout_lines }}"
-  when: item not in sites
+  when: item not in nginx_revproxy_sites
   tags:
     - nginx-revproxy
 
@@ -58,7 +58,7 @@
     src=/etc/nginx/sites-available/{{ item.key }}.conf
     dest=/etc/nginx/sites-enabled/{{ item.key }}
     state=link
-  with_dict: "{{ sites }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
   notify:
     - Reload Nginx
   tags:
@@ -73,7 +73,7 @@
     state=directory
     owner=www-data
     group=www-data
-  with_dict: "{{ sites }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
   notify:
     - Reload Nginx
   tags:
@@ -88,7 +88,7 @@
     owner=www-data
     group=www-data
     recurse=yes
-  with_dict: "{{ sites }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
   notify:
     - Reload Nginx
   tags:

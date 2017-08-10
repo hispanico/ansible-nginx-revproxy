@@ -2,8 +2,8 @@
 language: python
 python: "2.7"
 
-# Use the new container infrastructure
-sudo: false
+sudo: required
+dist: trusty
 
 # Install ansible
 addons:
@@ -24,6 +24,22 @@ install:
 script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+
+  # Run the role/playbook with ansible-playbook
+  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
+
+  # Run the role/playbook again, checking to make sure it's idempotent
+  - >
+    ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Check for role is done
+  - sudo service nginx status
+  - sudo netstat -ntulp
+  - sudo ls /etc/nginx/sites-enabled/
+  - sudo cat /etc/nginx/sites-enabled/example.com
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
