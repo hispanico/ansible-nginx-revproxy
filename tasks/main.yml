@@ -37,20 +37,6 @@
   tags:
     - nginx-revproxy
 
-- name: Get WebRoot Sites
-  shell: ls -1 /var/www/
-  register: webroot
-  changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()"
-  tags:
-    - nginx-revproxy
-
-- name: Remove WebRoot Sites
-  file: path=/var/www/{{ item }}/ state=absent
-  with_items: "{{ webroot.stdout_lines }}"
-  when: item not in nginx_revproxy_sites
-  tags:
-    - nginx-revproxy
-
 - name: Enable Site Config
   when:
     siteconfig|success
@@ -89,6 +75,22 @@
     group=www-data
     recurse=yes
   with_dict: "{{ nginx_revproxy_sites }}"
+  notify:
+    - Reload Nginx
+  tags:
+    - nginx-revproxy
+
+- name: Get WebRoot Sites
+  shell: ls -1 /var/www/
+  register: webroot
+  changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()"
+  tags:
+    - nginx-revproxy
+
+- name: Remove WebRoot Sites
+  file: path=/var/www/{{ item }}/ state=absent
+  with_items: "{{ webroot.stdout_lines }}"
+  when: item not in nginx_revproxy_sites
   notify:
     - Reload Nginx
   tags:
