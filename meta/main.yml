@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Hispanico
+  description: Manage Nginx as Reverse Proxy
+  license: GPLv3
+
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+
+  galaxy_tags:
+  - system
+  - nginx
+  - reverse proxy
+
+dependencies: []

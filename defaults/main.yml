@@ -1,0 +1,11 @@
+---
+
+sites:                                                        # List of sites
+  example.com:                                                # Domain name
+    domains:                                                  # List of server_name aliases
+      - example.com
+      - www.example.com
+    upstreams:                                                # List of Upstreams
+      - { backend_address: 192.168.0.100, backend_port: 80 }
+      - { backend_address: 192.168.0.101, backend_port: 8080 }
+    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt role
