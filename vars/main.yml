@@ -1,2 +1,2 @@
 ---
-# vars file for roles/nginx-revproxy
+# vars file for roles/ansible-nginx-revproxy
