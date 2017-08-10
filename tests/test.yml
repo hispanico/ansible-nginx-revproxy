@@ -3,4 +3,4 @@
   remote_user: root
 
   roles:
-    - roles/nginx-revproxy
+    - nginx-revproxy

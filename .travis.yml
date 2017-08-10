@@ -37,7 +37,7 @@ script:
 
   # Check for role is done
   - sudo service nginx status
-  - sudo netstat -ntulp
+  - sudo netstat -ntulp |grep nginx
   - sudo ls /etc/nginx/sites-enabled/
   - sudo cat /etc/nginx/sites-enabled/example.com
 
