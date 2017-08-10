@@ -1,7 +1,7 @@
 ansible-nginx-revproxy
 =========
 [![Build Status](https://img.shields.io/travis/hispanico/ansible-nginx-revproxy.svg?style=flat-square)](https://travis-ci.org/hispanico/ansible-nginx-revproxy)
-[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginxrevproxy-blue.svg?style=flat-square)](https://galaxy.ansible.com/hispanico/nginx-revproxy/)
+[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx--revproxy-blue.svg?style=flat-square)](https://galaxy.ansible.com/hispanico/nginx-revproxy/)
 
 Install and configures Nginx as reverse proxy for multiple website.
 
