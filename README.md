@@ -16,7 +16,10 @@ Role Variables
 Default values:
 
 ```yaml
-nginx_revproxy_sites:                                                        # List of sites
+nginx_revproxy_sites:                                         # List of sites to reverse proxy
+  default:                                                    # Set defualt site to return 444 (Connection Closed Without Response)
+    letsencrypt: false
+
   example.com:                                                # Domain name
     domains:                                                  # List of server_name aliases
       - example.com
@@ -24,7 +27,7 @@ nginx_revproxy_sites:                                                        # L
     upstreams:                                                # List of Upstreams
       - { backend_address: 192.168.0.100, backend_port: 80 }
       - { backend_address: 192.168.0.101, backend_port: 8080 }
-    letsencrypt: false                                        # Set to True after the first run if you are using hispanico.letsencrypt role
+    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt role
 ```
 
 Dependencies
@@ -41,6 +44,9 @@ Example Playbook
       - ansible-nginx-revproxy
     vars:
       nginx_revproxy_sites:
+        default:
+          letsencrypt: false
+
         example.com:
           domains:
             - example.com

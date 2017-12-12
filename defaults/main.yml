@@ -1,6 +1,9 @@
 ---
 
 nginx_revproxy_sites:                                         # List of sites to reverse proxy
+  default:                                                    # Set defualt site to return 444 (Connection Closed Without Response)
+    letsencrypt: false
+
   example.com:                                                # Domain name
     domains:                                                  # List of server_name aliases
       - example.com
