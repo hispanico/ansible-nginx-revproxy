@@ -39,7 +39,8 @@ script:
   - sudo service nginx status
   - sudo netstat -ntulp |grep nginx
   - sudo ls /etc/nginx/sites-enabled/
-  - sudo cat /etc/nginx/sites-enabled/example.com
+  - for i in $(sudo ls /etc/nginx/sites-enabled/); do echo $i;echo "------------------------------"; sudo cat /etc/nginx/sites-enabled/$i; echo "------------------------------";echo ""; done
+
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
