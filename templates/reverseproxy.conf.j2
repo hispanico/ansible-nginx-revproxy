@@ -15,24 +15,6 @@ server {
 
 }
 
-server {
-   listen        443 ssl default_server;
-   listen   [::]:443 ssl default_server;
-   server_name _;
-   return        444;
-
-   access_log /var/log/nginx/{{ item.key }}_access.log;
-   error_log /var/log/nginx/{{ item.key }}_error.log error;
-
-   ssl on;
-   ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-   ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
-   ssl_session_timeout 5m;
-   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
-   ssl_prefer_server_ciphers on;
-   ssl_session_cache shared:SSL:10m;
-}
 {% else %}
 upstream {{ item.key }}_backend  {
 {% for upstream in item.value.upstreams %}
@@ -44,39 +26,6 @@ server {
    listen         80;
    listen    [::]:80;
    server_name    {{ item.value.domains | join(' ') }};
-   location / {
-   return         301 https://$server_name$request_uri;
-   }
-
-   location /.well-known {
-      alias /var/www/{{ item.key }}/.well-known;
-   }
-
-   access_log /var/log/nginx/{{ item.key }}_access.log;
-   error_log /var/log/nginx/{{ item.key }}_error.log error;
-
-}
-
-server {
-   listen        443 ssl;
-   listen   [::]:443 ssl;
-   server_name {{ item.value.domains | join(' ') }};
-
-   access_log /var/log/nginx/{{ item.key }}_access.log;
-   error_log /var/log/nginx/{{ item.key }}_error.log error;
-
-   ssl on;
-   ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-   ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
-   ssl_session_timeout 5m;
-   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
-   ssl_prefer_server_ciphers on;
-   ssl_session_cache shared:SSL:10m;
-
-   location /.well-known {
-      alias /var/www/{{ item.key }}/.well-known;
-   }
 
    location / {
       gzip off;
@@ -91,5 +40,13 @@ server {
       proxy_set_header X-Frame-Options SAMEORIGIN;
       proxy_pass http://{{ item.key }}_backend;
    }
+
+   location /.well-known {
+      alias /var/www/{{ item.key }}/.well-known;
+   }
+
+   access_log /var/log/nginx/{{ item.key }}_access.log;
+   error_log /var/log/nginx/{{ item.key }}_error.log error;
+
 }
 {% endif %}

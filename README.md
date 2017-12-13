@@ -18,6 +18,7 @@ Default values:
 ```yaml
 nginx_revproxy_sites:                                         # List of sites to reverse proxy
   default:                                                    # Set defualt site to return 444 (Connection Closed Without Response)
+    ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false
 
   example.com:                                                # Domain name
@@ -27,6 +28,17 @@ nginx_revproxy_sites:                                         # List of sites to
     upstreams:                                                # List of Upstreams
       - { backend_address: 192.168.0.100, backend_port: 80 }
       - { backend_address: 192.168.0.101, backend_port: 8080 }
+    ssl: false                                                # Set to True if you want to redirect http to https
+    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
+
+  example.org:                                                # Domain name
+    domains:                                                  # List of server_name aliases
+      - example.org
+      - www.example.org
+    upstreams:                                                # List of Upstreams
+      - { backend_address: 192.168.0.200, backend_port: 80 }
+      - { backend_address: 192.168.0.201, backend_port: 8080 }
+    ssl: true                                                 # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
 ```
 
@@ -45,6 +57,7 @@ Example Playbook
     vars:
       nginx_revproxy_sites:
         default:
+          ssl: false
           letsencrypt: false
 
         example.com:
@@ -54,6 +67,7 @@ Example Playbook
           upstreams:
             - { backend_address: 192.168.0.100, backend_port: 80 }
             - { backend_address: 192.168.0.101, backend_port: 80 }
+          ssl: true
           letsencrypt: false
 ```
 
