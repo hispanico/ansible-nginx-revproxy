@@ -57,13 +57,13 @@
 
 - name: Enable Site Config
   when:
-    siteconfig|success
+    - siteconfig|success
+    - not ansible_check_mode
   file:
     src=/etc/nginx/sites-available/{{ item.key }}.conf
     dest=/etc/nginx/sites-enabled/{{ item.key }}
     state=link
   with_dict: "{{ nginx_revproxy_sites }}"
-  when: not ansible_check_mode
   notify:
     - Reload Nginx
   tags:
