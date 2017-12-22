@@ -43,6 +43,7 @@
   shell: ls -1 /etc/nginx/sites-enabled/
   register: active
   changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()"
+  check_mode: no
   tags:
     - nginx-revproxy
 
@@ -101,6 +102,7 @@
   shell: ls -1 /var/www/
   register: webroot
   changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()"
+  check_mode: no
   tags:
     - nginx-revproxy
 
