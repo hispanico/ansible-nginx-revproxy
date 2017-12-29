@@ -62,7 +62,7 @@ server {
    listen   [::]:443 ssl;
    server_name {{ item.value.domains | join(' ') }};
 
-{% if item.key.hsts %}
+{% if item.hsts %}
    add_header Strict-Transport-Security "max-age={{ item.value.hsts.max_age }}; includeSubDomains; preload" always;
 {% endif %}
 
