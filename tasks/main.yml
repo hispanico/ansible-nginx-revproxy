@@ -1,4 +1,5 @@
 ---
+
 - name: Install Nginx
   apt: name=nginx state=present
   register:
@@ -58,6 +59,7 @@
 - name: Enable Site Config
   when:
     - siteconfig|success
+    - item.value.letsencrypt != True | default(True)
     - not ansible_check_mode
   file:
     src=/etc/nginx/sites-available/{{ item.key }}.conf
@@ -115,3 +117,9 @@
     - Reload Nginx
   tags:
     - nginx-revproxy
+
+- include_tasks: letsencrypt.yml
+  tags:
+    - nginx-revproxy
+    - lesencrypt
+
