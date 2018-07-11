@@ -8,7 +8,7 @@ Install and configures Nginx as reverse proxy for multiple website.
 Requirements
 ------------
 
-This role requires Ansible 1.9 or higher.
+This role requires Ansible 2.4 or higher.
 
 Role Variables
 --------------
