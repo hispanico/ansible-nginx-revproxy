@@ -10,7 +10,7 @@
 
 - name: Add Site Config
   when:
-    - nginxinstalled|success
+    - nginxinstalled is success
     - item.value.ssl != True | default(True)
     - item.value.letsencrypt != True | default(True)
   register:
@@ -26,7 +26,7 @@
 
 - name: Add Https Site Config
   when:
-    - nginxinstalled|success
+    - nginxinstalled is success
     - item.value.ssl | default(False)
     - item.value.letsencrypt != True | default(True)
   register:
@@ -58,7 +58,7 @@
 
 - name: Enable Site Config
   when:
-    - siteconfig|success
+    - siteconfig is success
     - item.value.letsencrypt != True | default(True)
     - not ansible_check_mode
   file:
@@ -73,7 +73,7 @@
 
 - name: Create WebRoot sites
   when:
-    nginxinstalled|success
+    nginxinstalled is success
   file:
     dest=/var/www/{{ item.key }}/.well-known
     mode=775
@@ -88,7 +88,7 @@
 
 - name: WebRoot Permissions Sites
   when:
-    nginxinstalled|success
+    nginxinstalled is success
   file:
     dest=/var/www/{{ item.key }}
     mode=775 state=directory

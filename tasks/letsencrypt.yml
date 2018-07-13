@@ -41,7 +41,7 @@
       with_dict: "{{ nginx_revproxy_sites }}"
       register: site_enabled
       when:
-        - siteconfig|success
+        - siteconfig is success
         - not ansible_check_mode
         - item.value.letsencrypt | default(False)   
         - item.key not in active.stdout_lines
@@ -49,10 +49,10 @@
     - name: Reload Nginx
       service: name=nginx state=reloaded
       when:
-        - site_enabled|success
+        - site_enabled is success
       
   when:
-    - nginxinstalled|success
+    - nginxinstalled is success
     - active.changed
   tags:
     - nginx-revproxy
