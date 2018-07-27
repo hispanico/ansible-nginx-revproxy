@@ -18,8 +18,7 @@
     - lesencrypt
     - nginx-revproxy
 
-- name: Enable sites for ACME protocol 
-  block:
+- block: #Enable sites for ACME protocol 
     - name: Add Https Site Config
       template:
         src: reverseproxy_ssl.conf.j2
