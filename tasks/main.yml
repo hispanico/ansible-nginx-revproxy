@@ -92,7 +92,8 @@
 - name: WebRoot Permissions Sites
   file:
     dest: /var/www/{{ item.key }}
-    mode: 0775 state=directory
+    mode: 0775
+    state: directory
     owner: www-data
     group: www-data
     recurse: yes
