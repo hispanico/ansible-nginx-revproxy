@@ -5,8 +5,8 @@
 
 {% if item.key == "default" %}
 server {
-    listen        80 default_server;
-    listen   [::]:80 default_server;
+    listen        {{ item.value.listen }} default_server;
+    listen   [::]:{{ item.value.listen }} default_server;
     server_name _;
     return        444;
 
@@ -23,8 +23,8 @@ upstream {{ item.key }}_backend  {
 }
 
 server {
-   listen         80;
-   listen    [::]:80;
+   listen         {{ item.value.listen }};
+   listen    [::]:{{ item.value.listen }};
    server_name    {{ item.value.domains | join(' ') }};
 
    location / {
@@ -39,6 +39,10 @@ server {
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Frame-Options SAMEORIGIN;
       proxy_pass http://{{ item.key }}_backend;
+{% if item.value.auth %}
+      auth_basic "Restricted Content";
+      auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
+{% endif %}
    }
 
    location /.well-known {
