@@ -23,8 +23,8 @@ upstream {{ item.key }}_backend  {
 }
 
 server {
-   listen         {{ item.value.listen }};
-   listen    [::]:{{ item.value.listen }};
+   listen         {{ item.value.listen | default(80) }};
+   listen    [::]:{{ item.value.listen | default(80) }};
    server_name    {{ item.value.domains | join(' ') }};
 
    location / {
