@@ -28,6 +28,10 @@ nginx_revproxy_sites:                                         # List of sites to
     upstreams:                                                # List of Upstreams
       - { backend_address: 192.168.0.100, backend_port: 80 }
       - { backend_address: 192.168.0.101, backend_port: 8080 }
+    auth:                                                     # Define this block for a single HTTP user/password, or leave undefined for unauthenticated vhosts
+      login: myusername
+      password: mysecretpassword
+    listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
 
@@ -38,6 +42,8 @@ nginx_revproxy_sites:                                         # List of sites to
     upstreams:                                                # List of Upstreams
       - { backend_address: 192.168.0.200, backend_port: 80 }
       - { backend_address: 192.168.0.201, backend_port: 8080 }
+    listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
+    listen_ssl: 9001                                          # Specify which port you want to listen to with HTTPS, or leave undefined for 443
     ssl: true                                                 # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
 ```
