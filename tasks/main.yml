@@ -29,6 +29,8 @@
   when:
     - nginxinstalled is success
     - item.value.auth is defined
+  tags:
+    - nginx-revproxy
 
 - name: Add Site Config
   template:
