@@ -94,7 +94,7 @@ server {
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Frame-Options SAMEORIGIN;
       proxy_pass http://{{ item.key }}_backend;
-{% if item.value.auth %}
+{% if item.value.auth is defined %}
       auth_basic "Restricted Content";
       auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
 {% endif %}
