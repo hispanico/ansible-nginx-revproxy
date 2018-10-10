@@ -23,8 +23,8 @@
 - name: Add authentication
   htpasswd:
     path: "/etc/nginx/{{ item.key }}_htpasswd"
-    name: "{{ item.auth.login }}"
-    password: "{{ item.auth.password }}"
+    name: "{{ item.value.auth.login }}"
+    password: "{{ item.value.auth.password }}"
   loop: "{{ nginx_revproxy_sites|dict2items }}"
   when:
     - nginxinstalled is success
