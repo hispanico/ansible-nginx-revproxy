@@ -10,6 +10,26 @@
     - nginx-revproxy
     - packages
 
+- name: Install python-passlib
+  apt:
+    name:
+        - "python-passlib"
+        - "python3-passlib"
+    state: present
+  tags:
+    - nginx-revproxy
+    - packages
+
+- name: Add authentication
+  htpasswd:
+    path: "/etc/nginx/{{ item.key }}_htpasswd"
+    name: "{{ item.auth.login }}"
+    password: "{{ item.auth.password }}"
+  loop: "{{ nginx_revproxy_sites|dict2items }}"
+  when:
+    - nginxinstalled is success
+    - item.value.auth is defined
+
 - name: Add Site Config
   template:
     src: reverseproxy.conf.j2
