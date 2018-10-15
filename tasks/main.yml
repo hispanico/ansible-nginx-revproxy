@@ -25,7 +25,7 @@
     path: "/etc/nginx/{{ item.key }}_htpasswd"
     name: "{{ item.value.auth.login }}"
     password: "{{ item.value.auth.password }}"
-  loop: "{{ nginx_revproxy_sites|dict2items }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
   when:
     - nginxinstalled is success
     - item.value.auth is defined
