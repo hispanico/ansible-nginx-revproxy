@@ -10,15 +10,27 @@
     - nginx-revproxy
     - packages
 
-- name: Install python-passlib
+- name: Install python-passlib for Python 3 hosts
   apt:
     name:
-        - "python-passlib"
         - "python3-passlib"
     state: present
   tags:
     - nginx-revproxy
     - packages
+  when:
+    - ansible_python['version']['major'] == 3
+
+- name: Install python-passlib for Python 2 hosts
+  apt:
+    name:
+        - "python-passlib"
+    state: present
+  tags:
+    - nginx-revproxy
+    - packages
+  when:
+    - ansible_python['version']['major'] == 2
 
 - name: Add authentication
   htpasswd:
