@@ -5,8 +5,8 @@
 
 {% if item.key == "default" %}
 server {
-    listen        {{ item.value.listen }} default_server;
-    listen   [::]:{{ item.value.listen }} default_server;
+    listen        {{ item.value.listen | default(80) }} default_server;
+    listen   [::]:{{ item.value.listen | default(80) }} default_server;
     server_name _;
     return        444;
 
