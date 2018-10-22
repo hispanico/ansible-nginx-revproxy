@@ -10,6 +10,40 @@
     - nginx-revproxy
     - packages
 
+- name: Install python-passlib for Python 3 hosts
+  apt:
+    name:
+        - "python3-passlib"
+    state: present
+  tags:
+    - nginx-revproxy
+    - packages
+  when:
+    - ansible_python['version']['major'] == 3
+
+- name: Install python-passlib for Python 2 hosts
+  apt:
+    name:
+        - "python-passlib"
+    state: present
+  tags:
+    - nginx-revproxy
+    - packages
+  when:
+    - ansible_python['version']['major'] == 2
+
+- name: Add authentication
+  htpasswd:
+    path: "/etc/nginx/{{ item.key }}_htpasswd"
+    name: "{{ item.value.auth.login }}"
+    password: "{{ item.value.auth.password }}"
+  with_dict: "{{ nginx_revproxy_sites }}"
+  when:
+    - nginxinstalled is success
+    - item.value.auth is defined
+  tags:
+    - nginx-revproxy
+
 - name: Add Site Config
   template:
     src: reverseproxy.conf.j2
