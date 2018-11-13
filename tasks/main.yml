@@ -10,6 +10,14 @@
     - nginx-revproxy
     - packages
 
+- name: Install ssl-cert
+  apt:
+    name: ssl-cert
+    state: present
+  tags:
+    - nginx-revproxy
+    - packages
+
 - name: Install python-passlib for Python 3 hosts
   apt:
     name:
