@@ -18,7 +18,7 @@
     - lesencrypt
     - nginx-revproxy
 
-- name: Enable sites for ACME protocol 
+- name: Enable sites for ACME protocol
   block:
     - name: Add Https Site Config
       template:
@@ -42,7 +42,7 @@
       when:
         - siteconfig is success
         - not ansible_check_mode
-        - item.value.letsencrypt | default(False)   
+        - item.value.letsencrypt | default(False)
         - item.key not in active.stdout_lines
 
     - name: Reload Nginx
@@ -50,7 +50,7 @@
         name: nginx
         state: reloaded
       when:
-        - site_enabled is success      
+        - site_enabled is success
   when:
     - active.changed
     - nginxinstalled is success
@@ -59,7 +59,7 @@
     - nginx-revproxy
 
 - name: Generate certs (first time)
-  command: certbot-auto certonly --webroot -w /var/www/{{ item.key }} -d {{ item.value.domains | join(' -d ') }} --email {{ item.value.letsencrypt_email }} --non-interactive --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
+  command: certbot-auto certonly --webroot -w /var/www/{{ item.key }} -d {{ item.value.domains | join(' -d ') }} --email {{ item.value.letsencrypt_email }} --non-interactive --cert-name {{ item.key }} --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
   with_dict: "{{ nginx_revproxy_sites }}"
   when: item.value.letsencrypt | default(False)
   tags:
@@ -86,7 +86,7 @@
     job: 'certbot-auto renew --post-hook "systemctl reload nginx" >> /var/log/letsencrypt/letsencrypt-update.log 2>&1'
     hour: 3
     minute: 30
-    weekday: 1    
+    weekday: 1
   tags:
     - lesencrypt
     - nginx-revproxy
