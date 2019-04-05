@@ -62,7 +62,7 @@ server {
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Frame-Options SAMEORIGIN;
-      proxy_pass http://{{ item.key }}_backend;
+      proxy_pass {{ item.value.backend_protocol | default('http') }}://{{ item.key }}_backend;
 {% if item.value.auth is defined %}
       auth_basic "Restricted Content";
       auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
