@@ -45,7 +45,7 @@ nginx_revproxy_sites:                                         # List of sites to
     listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     listen_ssl: 9001                                          # Specify which port you want to listen to with HTTPS, or leave undefined for 443
     ssl: true                                                 # Set to True if you want to redirect http to https
-    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
+    letsencrypt: false                                        # Set to True if you want use letsencrypt
 ```
 
 Dependencies
