@@ -10,8 +10,8 @@ upstream {{ item.key }}_backend  {
 }
 
 server {
-   listen         80;
-   listen    [::]:80;
+   listen         80 http2;
+   listen    [::]:80 http2;
    server_name    {{ item.value.domains | join(' ') }};
    location / {
    return         301 https://$server_name$request_uri;
