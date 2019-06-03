@@ -27,8 +27,8 @@ server {
 }
 
 server {
-   listen        443 ssl;
-   listen   [::]:443 ssl;
+   listen        443 ssl http2;
+   listen   [::]:443 ssl http2;
    server_name {{ item.value.domains | join(' ') }};
 
 {% if item.value.hsts_max_age is defined %}
