@@ -12,8 +12,12 @@ galaxy_info:
     - xenial
 
   galaxy_tags:
-  - system
+  - development
+  - web
   - nginx
-  - reverse proxy
+  - reverse
+  - proxy
+  - load
+  - balancer
 
 dependencies: []
