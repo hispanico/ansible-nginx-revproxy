@@ -7,7 +7,7 @@
     mode: "a+x"
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
@@ -16,7 +16,7 @@
   register: active
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Enable sites for ACME protocol
   block:
@@ -56,13 +56,13 @@
     - nginxinstalled is success
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Generate certs (first time)
   command: |
     certbot-auto certonly
     --webroot -w /var/www/{{ item.key }}
-    -d {{ item.value.domains | join(' -d ') }} 
+    -d {{ item.value.domains | join(' -d ') }}
     --email {{ item.value.letsencrypt_email }}
     --non-interactive --cert-name {{ item.key }}
     --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
@@ -70,7 +70,7 @@
   when: item.value.letsencrypt | default(False)
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Update Site Config
   template:
@@ -84,7 +84,7 @@
     - item.value.letsencrypt | default(False)
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Insert cert-bot renew in crontab
   cron:
@@ -95,4 +95,4 @@
     weekday: "1"
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy

@@ -7,7 +7,7 @@
   register:
     nginxinstalled
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
     - packages
 
 - name: Install ssl-cert
@@ -15,7 +15,7 @@
     name: ssl-cert
     state: present
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
     - packages
 
 - name: Install python-passlib for Python 3 hosts
@@ -24,7 +24,7 @@
         - "python3-passlib"
     state: present
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
     - packages
   when:
     - ansible_python['version']['major'] == 3
@@ -35,7 +35,7 @@
         - "python-passlib"
     state: present
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
     - packages
   when:
     - ansible_python['version']['major'] == 2
@@ -50,7 +50,7 @@
     - nginxinstalled is success
     - item.value.auth is defined
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Add Site Config
   template:
@@ -66,7 +66,7 @@
     - not item.value.ssl | default(True)
     - not item.value.letsencrypt | default(True)
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Add Https Site Config
   template:
@@ -82,7 +82,7 @@
     - item.value.ssl | default(False)
     - not item.value.letsencrypt | default(True)
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
@@ -90,7 +90,7 @@
   check_mode: no
   register: active
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: De-activate Sites
   file:
@@ -101,7 +101,7 @@
   when:
     - item not in nginx_revproxy_sites
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Enable Site Config
   file:
@@ -115,7 +115,7 @@
     - not item.value.letsencrypt | default(True)
     - not ansible_check_mode
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Create WebRoot sites
   file:
@@ -129,7 +129,7 @@
   when:
     - nginxinstalled is success
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: WebRoot Permissions Sites
   file:
@@ -144,7 +144,7 @@
   when:
     - nginxinstalled is success
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Get WebRoot Sites
   command: ls -1 /var/www/
@@ -152,7 +152,7 @@
   check_mode: no
   register: webroot
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - name: Remove WebRoot Sites
   file:
@@ -163,9 +163,9 @@
   when:
     - item not in nginx_revproxy_sites
   tags:
-    - nginx_revproxy
+    - nginxrevproxy
 
 - include_tasks: letsencrypt.yml
   tags:
     - lesencrypt
-    - nginx_revproxy
+    - nginxrevproxy
