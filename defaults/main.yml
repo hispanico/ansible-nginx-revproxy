@@ -10,4 +10,4 @@ nginx_revproxy_sites:                                         # List of sites to
       - { backend_address: 192.168.0.101, backend_port: 8080 }
     ssl: true                                                 # Set to True if you want to redirect http to https
     hsts_max_age: 63072000                                    # Set HSTS header with max-age defined
-    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
+    letsencrypt: false                                        # Set to True if you want use letsencrypt

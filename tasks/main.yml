@@ -7,7 +7,7 @@
   register:
     nginxinstalled
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
     - packages
 
 - name: Install ssl-cert
@@ -15,7 +15,7 @@
     name: ssl-cert
     state: present
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
     - packages
 
 - name: Install python-passlib for Python 3 hosts
@@ -24,7 +24,7 @@
         - "python3-passlib"
     state: present
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
     - packages
   when:
     - ansible_python['version']['major'] == 3
@@ -35,7 +35,7 @@
         - "python-passlib"
     state: present
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
     - packages
   when:
     - ansible_python['version']['major'] == 2
@@ -50,7 +50,7 @@
     - nginxinstalled is success
     - item.value.auth is defined
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Add Site Config
   template:
@@ -63,10 +63,10 @@
     siteconfig
   when:
     - nginxinstalled is success
-    - item.value.ssl != True | default(True)
-    - item.value.letsencrypt != True | default(True)
+    - not item.value.ssl | default(True)
+    - not item.value.letsencrypt | default(True)
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Add Https Site Config
   template:
@@ -80,9 +80,9 @@
   when:
     - nginxinstalled is success
     - item.value.ssl | default(False)
-    - item.value.letsencrypt != True | default(True)
+    - not item.value.letsencrypt | default(True)
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
@@ -90,7 +90,7 @@
   check_mode: no
   register: active
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: De-activate Sites
   file:
@@ -101,7 +101,7 @@
   when:
     - item not in nginx_revproxy_sites
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Enable Site Config
   file:
@@ -112,10 +112,10 @@
   notify: Reload Nginx
   when:
     - siteconfig is success
-    - item.value.letsencrypt != True | default(True)
+    - not item.value.letsencrypt | default(True)
     - not ansible_check_mode
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Create WebRoot sites
   file:
@@ -129,7 +129,7 @@
   when:
     - nginxinstalled is success
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: WebRoot Permissions Sites
   file:
@@ -144,7 +144,7 @@
   when:
     - nginxinstalled is success
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Get WebRoot Sites
   command: ls -1 /var/www/
@@ -152,7 +152,7 @@
   check_mode: no
   register: webroot
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Remove WebRoot Sites
   file:
@@ -163,9 +163,9 @@
   when:
     - item not in nginx_revproxy_sites
   tags:
-    - nginx-revproxy
+    - nginx_revproxy
 
 - include_tasks: letsencrypt.yml
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy

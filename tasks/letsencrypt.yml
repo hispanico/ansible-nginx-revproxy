@@ -7,7 +7,7 @@
     mode: "a+x"
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
@@ -16,7 +16,7 @@
   register: active
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Enable sites for ACME protocol
   block:
@@ -56,15 +56,21 @@
     - nginxinstalled is success
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Generate certs (first time)
-  command: certbot-auto certonly --webroot -w /var/www/{{ item.key }} -d {{ item.value.domains | join(' -d ') }} --email {{ item.value.letsencrypt_email }} --non-interactive --cert-name {{ item.key }} --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
+  command: |
+    certbot-auto certonly
+    --webroot -w /var/www/{{ item.key }}
+    -d {{ item.value.domains | join(' -d ') }} 
+    --email {{ item.value.letsencrypt_email }}
+    --non-interactive --cert-name {{ item.key }}
+    --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
   with_dict: "{{ nginx_revproxy_sites }}"
   when: item.value.letsencrypt | default(False)
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Update Site Config
   template:
@@ -78,15 +84,15 @@
     - item.value.letsencrypt | default(False)
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
 
 - name: Insert cert-bot renew in crontab
   cron:
     name: "cert-bot renew"
     job: 'certbot-auto renew --post-hook "systemctl reload nginx" >> /var/log/letsencrypt/letsencrypt-update.log 2>&1'
-    hour: 3
-    minute: 30
-    weekday: 1
+    hour: "3"
+    minute: "30"
+    weekday: "1"
   tags:
     - lesencrypt
-    - nginx-revproxy
+    - nginx_revproxy
