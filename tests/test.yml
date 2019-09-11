@@ -3,5 +3,4 @@
   remote_user: root
 
   roles:
-    - hispanico.nginx-revproxy
-    #- ansible-nginx-revproxy
+    - ansible-nginx-revproxy
