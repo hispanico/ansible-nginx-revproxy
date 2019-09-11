@@ -11,3 +11,4 @@ nginx_revproxy_sites:                                         # List of sites to
     ssl: true                                                 # Set to True if you want to redirect http to https
     hsts_max_age: 63072000                                    # Set HSTS header with max-age defined
     letsencrypt: false                                        # Set to True if you want use letsencrypt
+    letsencrypt_email: ""                                     # Set email for letencrypt cert

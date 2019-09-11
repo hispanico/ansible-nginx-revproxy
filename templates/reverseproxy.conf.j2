@@ -5,8 +5,8 @@
 
 {% if item.key == "default" %}
 server {
-    listen        {{ item.value.listen | default(80) }} default_server;
-    listen   [::]:{{ item.value.listen | default(80) }} default_server;
+    listen        {{ item.value.listen | default(80) }} http2 default_server;
+    listen   [::]:{{ item.value.listen | default(80) }} http2 default_server;
     server_name _;
     return        444;
 
@@ -23,8 +23,8 @@ upstream {{ item.key }}_backend  {
 }
 
 server {
-   listen         {{ item.value.listen | default(80) }};
-   listen    [::]:{{ item.value.listen | default(80) }};
+   listen         {{ item.value.listen | default(80) }} http2;
+   listen    [::]:{{ item.value.listen | default(80) }} http2;
    server_name    {{ item.value.domains | join(' ') }};
 
    location / {

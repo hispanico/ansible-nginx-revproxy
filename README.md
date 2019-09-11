@@ -1,5 +1,6 @@
 ansible-nginx-revproxy
 =========
+
 [![Build Status](https://img.shields.io/travis/hispanico/ansible-nginx-revproxy.svg?style=flat-square)](https://travis-ci.org/hispanico/ansible-nginx-revproxy)
 [![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx--revproxy-blue.svg?style=flat-square)](https://galaxy.ansible.com/hispanico/nginx-revproxy/)
 
@@ -46,6 +47,7 @@ nginx_revproxy_sites:                                         # List of sites to
     listen_ssl: 9001                                          # Specify which port you want to listen to with HTTPS, or leave undefined for 443
     ssl: true                                                 # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you want use letsencrypt
+    letsencrypt_email: ""                                     # Set email for letencrypt cert
 ```
 
 Dependencies
