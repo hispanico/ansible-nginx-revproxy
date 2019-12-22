@@ -40,6 +40,18 @@
   when:
     - ansible_python['version']['major'] == 2
 
+- name: Set up nginx directories
+  file:
+    path: "/etc/nginx/{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - sites-available
+    - sites-enabled
+  tags:
+    - nginxrevproxy
+
 - name: Add authentication
   htpasswd:
     path: "/etc/nginx/{{ item.key }}_htpasswd"
