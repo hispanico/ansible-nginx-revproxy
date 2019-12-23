@@ -27,8 +27,8 @@ server {
 }
 
 server {
-   listen        {{ item.value.listen_ssl | default(443) }} ssl;
-   listen   [::]:{{ item.value.listen_ssl | default(443) }} ssl;
+   listen        {{ item.value.listen_ssl | default(443) }} ssl http2;
+   listen   [::]:{{ item.value.listen_ssl | default(443) }} ssl http2;
    server_name {{ item.value.domains | join(' ') }};
 
 {% if item.value.hsts_max_age is defined %}

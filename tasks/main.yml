@@ -21,7 +21,7 @@
 - name: Install python-passlib for Python 3 hosts
   apt:
     name:
-        - "python3-passlib"
+      - "python3-passlib"
     state: present
   tags:
     - nginxrevproxy
@@ -32,7 +32,7 @@
 - name: Install python-passlib for Python 2 hosts
   apt:
     name:
-        - "python-passlib"
+      - "python-passlib"
     state: present
   tags:
     - nginxrevproxy
@@ -99,7 +99,7 @@
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
   changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()|sort()"
-  check_mode: no
+  check_mode: false
   register: active
   tags:
     - nginxrevproxy
@@ -150,7 +150,7 @@
     state: directory
     owner: www-data
     group: www-data
-    recurse: yes
+    recurse: true
   with_dict: "{{ nginx_revproxy_sites }}"
   notify: Reload Nginx
   when:
@@ -161,7 +161,7 @@
 - name: Get WebRoot Sites
   command: ls -1 /var/www/
   changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()|sort()"
-  check_mode: no
+  check_mode: false
   register: webroot
   tags:
     - nginxrevproxy

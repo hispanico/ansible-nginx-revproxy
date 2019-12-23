@@ -1,46 +1,32 @@
 ---
+os: linux
 language: python
-python: "2.7"
+services: docker
 
-sudo: required
-dist: xenial
-
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+env:
+  global:
+    - ROLE_NAME: nginx-revproxy
+  jobs:
+    # - MOLECULE_DISTRO: centos7
+    - MOLECULE_DISTRO: ubuntu1604
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: debian9
+    - MOLECULE_DISTRO: debian10
 
 install:
-  # Install ansible
-  - pip install ansible
+  # Install test dependencies.
+  - pip install molecule docker
 
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv ansible-$ROLE_NAME hispanico.$ROLE_NAME
+  - cd hispanico.$ROLE_NAME
 
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-
-  # Run the role/playbook with ansible-playbook
-  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
-
-  # Run the role/playbook again, checking to make sure it's idempotent
-  - >
-    ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-
-  # Check for role is done
-  - sudo service nginx status
-  - sudo netstat -ntulp |grep nginx
-  - sudo ls /etc/nginx/sites-enabled/
-  - for i in $(sudo ls /etc/nginx/sites-enabled/); do echo $i;echo "------------------------------"; sudo cat /etc/nginx/sites-enabled/$i; echo "------------------------------";echo ""; done
-
+  # Run tests.
+  - molecule test
+  - pip install https://github.com/openwisp/openwisp-utils/tarball/master
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

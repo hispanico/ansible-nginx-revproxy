@@ -12,7 +12,7 @@
 - name: Get Active Sites
   command: ls -1 /etc/nginx/sites-enabled/
   changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()|sort()"
-  check_mode: no
+  check_mode: false
   register: active
   tags:
     - lesencrypt
