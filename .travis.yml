@@ -26,7 +26,6 @@ before_script:
 script:
   # Run tests.
   - molecule test
-  - pip install https://github.com/openwisp/openwisp-utils/tarball/master
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
