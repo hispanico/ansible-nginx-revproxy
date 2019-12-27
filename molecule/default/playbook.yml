@@ -1,0 +1,26 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Install cron (RedHat).
+      yum:
+        name: cronie
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install cron (Debian).
+      apt:
+        name: cron
+        state: present
+      when: ansible_distribution == 'Debian'
+
+    - name: Update apt cache.
+      apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_distribution == 'Ubuntu'
+
+  roles:
+    - role: hispanico.nginx-revproxy
