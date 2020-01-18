@@ -21,10 +21,10 @@
       - "python3-passlib"
     state: present
   register:
-    python3-passlibInstalled
+    result
   delay: 10
   retries: 12
-  until: python3-passlibInstalled is successful
+  until: result is successful
   tags:
     - nginxrevproxy
     - packages
@@ -37,10 +37,10 @@
       - "python-passlib"
     state: present
   register:
-    python-passlibInstalled
+    result
   delay: 10
   retries: 12
-  until: python-passlibInstalled is successful
+  until: result is successful
   tags:
     - nginxrevproxy
     - packages
