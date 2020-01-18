@@ -21,7 +21,7 @@
   tags:
     - nginxrevproxy
     - packages
-  
+
 - name: Install python-passlib for Python 3 hosts
   apt:
     name:
