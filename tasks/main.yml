@@ -6,6 +6,8 @@
     state: present
   register:
     nginxinstalled
+  delay: 10
+  retries: 12
   tags:
     - nginxrevproxy
     - packages
@@ -14,6 +16,8 @@
   apt:
     name: ssl-cert
     state: present
+  delay: 10
+  retries: 12
   tags:
     - nginxrevproxy
     - packages
@@ -23,6 +27,8 @@
     name:
       - "python3-passlib"
     state: present
+  delay: 10
+  retries: 12
   tags:
     - nginxrevproxy
     - packages
@@ -34,6 +40,8 @@
     name:
       - "python-passlib"
     state: present
+  delay: 10
+  retries: 12
   tags:
     - nginxrevproxy
     - packages
