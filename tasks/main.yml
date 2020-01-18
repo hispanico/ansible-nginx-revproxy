@@ -1,19 +1,16 @@
 ---
 
-- name: Install Nginx
+- name: Install Nginx and ssl-cert
   apt:
-    name: nginx
+    name:
+      - nginx
+      - ssl-cert
     state: present
   register:
     nginxinstalled
-  tags:
-    - nginxrevproxy
-    - packages
-
-- name: Install ssl-cert
-  apt:
-    name: ssl-cert
-    state: present
+  delay: 10
+  retries: 12
+  until: nginxinstalled is successful
   tags:
     - nginxrevproxy
     - packages
@@ -23,6 +20,11 @@
     name:
       - "python3-passlib"
     state: present
+  register:
+    result
+  delay: 10
+  retries: 12
+  until: result is successful
   tags:
     - nginxrevproxy
     - packages
@@ -34,6 +36,11 @@
     name:
       - "python-passlib"
     state: present
+  register:
+    result
+  delay: 10
+  retries: 12
+  until: result is successful
   tags:
     - nginxrevproxy
     - packages
