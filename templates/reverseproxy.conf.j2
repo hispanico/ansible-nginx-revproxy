@@ -29,7 +29,6 @@ server {
 
    location / {
       gzip off;
-      proxy_set_header X-Forwarded-Ssl on;
       client_max_body_size {{ item.value.client_max_body_size | default('50M') }};
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
