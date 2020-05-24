@@ -1,0 +1,39 @@
+---
+
+- name: Verify
+  hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: Install net-tools (RedHat).
+      yum:
+        name:
+          - net-tools
+          - ps
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install net-tools (Debian).
+      apt:
+        name:
+          - net-tools
+          - procps
+        state: present
+      when: ansible_os_family == 'Debian'
+
+  tasks:
+    - name: Check if nginx is running
+      command: systemctl status nginx
+      changed_when: false
+
+    - name: Check nginx configuration
+      command: nginx -c /etc/nginx/nginx.conf -t
+      changed_when: false
+
+    - name: Check if nginx listening on ports 80
+      shell: netstat -ntulp | grep ':80' | grep nginx
+      changed_when: false
+
+    - name: Check if nginx listening on ports 443
+      shell: netstat -ntulp | grep ':443' | grep nginx
+      changed_when: false
