@@ -2,3 +2,4 @@ exclude_paths:
   - meta/exception.yml
   - meta/preferences.yml
   - molecule/default/verify.yml
+  - molecule/http_only/verify.yml

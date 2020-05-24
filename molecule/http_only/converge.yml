@@ -4,6 +4,18 @@
   hosts: all
   become: true
 
+  vars:
+    nginx_revproxy_sites:
+      example.com:
+        domains:
+          - example.com
+          - www.example.com
+        upstreams:
+          - {backend_address: 192.168.0.100, backend_port: 80}
+          - {backend_address: 192.168.0.101, backend_port: 8080}
+        ssl: false
+        letsencrypt: false
+
   pre_tasks:
     - name: Install cron (RedHat).
       yum:
