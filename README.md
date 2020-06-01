@@ -46,6 +46,8 @@ nginx_revproxy_sites:                                         # List of sites to
     listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     listen_ssl: 9001                                          # Specify which port you want to listen to with HTTPS, or leave undefined for 443
     ssl: true                                                 # Set to True if you want to redirect http to https
+    ssl_certificate: /etc/ssl/certs/ssl-cert-snakeoil.pem     # ssl certificate, used if letsencrypt is false
+    ssl_certificate_key: /etc/ssl/private/ssl-cert-snakeoil.key # ssl certificate key, used if letsencrypt is false
     letsencrypt: false                                        # Set to True if you want use letsencrypt
     letsencrypt_email: ""                                     # Set email for letencrypt cert
 ```
