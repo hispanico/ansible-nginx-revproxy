@@ -18,7 +18,7 @@ Default values:
 
 ```yaml
 nginx_revproxy_sites:                                         # List of sites to reverse proxy
-  default:                                                    # Set defualt site to return 444 (Connection Closed Without Response)
+  default:                                                    # Set default site to return 444 (Connection Closed Without Response)
     ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false
 
