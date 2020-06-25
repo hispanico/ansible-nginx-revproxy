@@ -42,7 +42,7 @@ upstream {{ item.key }}_backend  {
 }
 
 server {
-   listen         {{ item.value.listen | default(80) }}; 
+   listen         {{ item.value.listen | default(80) }};
    listen    [::]:{{ item.value.listen | default(80) }};
    server_name    {{ item.value.domains | join(' ') }};
    location / {
@@ -71,8 +71,13 @@ server {
    error_log /var/log/nginx/{{ item.key }}_error.log error;
 
    ssl on;
+{% if not __skip_letsencrypt | default(false) and item.value.letsencrypt is defined and item.value.letsencrypt %}
+   ssl_certificate /etc/letsencrypt/live/{{ item.key }}/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/{{ item.key }}/privkey.pem;
+{% else %}
    ssl_certificate {{ item.value.ssl_certificate | default('/etc/ssl/certs/ssl-cert-snakeoil.pem') }};
    ssl_certificate_key {{ item.value.ssl_certificate_key | default ('/etc/ssl/private/ssl-cert-snakeoil.key') }};
+{% endif %}
    ssl_session_timeout 5m;
    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';

@@ -27,6 +27,8 @@
         owner: root
         group: root
       with_dict: "{{ nginx_revproxy_sites }}"
+      vars:
+        __skip_letsencrypt: true  # use snakeoil cert on first run
       register: siteconfig
       when:
         - item.value.letsencrypt | default(False)
@@ -74,7 +76,7 @@
 
 - name: Update Site Config
   template:
-    src: reverseproxy_ssl_letsencrypt.conf.j2
+    src: reverseproxy_ssl.conf.j2
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
     group: root
