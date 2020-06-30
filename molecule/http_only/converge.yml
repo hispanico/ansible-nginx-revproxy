@@ -36,4 +36,4 @@
       when: ansible_distribution == 'Ubuntu'
 
   roles:
-    - role: hispanico.nginx-revproxy
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

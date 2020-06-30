@@ -1,4 +1,5 @@
 ---
+
 os: linux
 dist: bionic
 language: python
@@ -18,12 +19,6 @@ env:
 install:
   # Install test dependencies.
   - pip install molecule yamllint ansible-lint docker
-
-before_script:
-  # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - mv ansible-$ROLE_NAME hispanico.$ROLE_NAME
-  - cd hispanico.$ROLE_NAME
 
 script:
   # Run tests.
