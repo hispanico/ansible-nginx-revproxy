@@ -50,6 +50,12 @@ nginx_revproxy_sites:                                         # List of sites to
     ssl_certificate_key: /etc/ssl/private/ssl-cert-snakeoil.key # ssl certificate key, used if letsencrypt is false
     letsencrypt: false                                        # Set to True if you want use letsencrypt
     letsencrypt_email: ""                                     # Set email for letencrypt cert
+
+nginx_revproxy_certbot_auto: true                             # Install certbot-auto
+
+nginx_revproxy_certbot_packages:                              # Install these packages from repo, when not using certbot-auto
+  - certbot
+  - python3-certbot-nginx
 ```
 
 Dependencies
