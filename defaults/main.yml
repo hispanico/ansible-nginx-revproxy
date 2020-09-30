@@ -2,6 +2,8 @@
 
 nginx_revproxy_sites:                                         # List of sites to reverse proxy
   example.com:                                                # Domain name
+    client_max_body_size: "256M"
+    proxy_read_timeout: "360"
     domains:                                                  # List of server_name aliases
       - example.com
       - www.example.com
