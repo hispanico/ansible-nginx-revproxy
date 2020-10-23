@@ -70,7 +70,7 @@ Example Playbook
 ```yaml
   - hosts: all
     roles:
-      - ansible-nginx-revproxy
+      - hispanico.nginx-revproxy
     vars:
       nginx_revproxy_sites:
         default:
