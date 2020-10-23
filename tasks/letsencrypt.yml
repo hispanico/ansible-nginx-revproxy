@@ -36,6 +36,7 @@
         dest: /etc/nginx/sites-available/{{ item.key }}.conf
         owner: root
         group: root
+        mode: 0640
       with_dict: "{{ nginx_revproxy_sites }}"
       vars:
         __skip_letsencrypt: true  # use snakeoil cert on first run
@@ -90,6 +91,7 @@
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
     group: root
+    mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
   notify: Reload Nginx
   when:

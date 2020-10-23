@@ -53,6 +53,7 @@
     state: directory
     owner: root
     group: root
+    mode: 0640
   with_items:
     - sites-available
     - sites-enabled
@@ -64,6 +65,9 @@
     path: "/etc/nginx/{{ item.key }}_htpasswd"
     name: "{{ item.value.auth.login }}"
     password: "{{ item.value.auth.password }}"
+    owner: root
+    group: www-data
+    mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
   when:
     - nginxinstalled is success
@@ -77,6 +81,7 @@
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
     group: root
+    mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
   register:
     siteconfig
@@ -93,6 +98,7 @@
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
     group: root
+    mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
   register:
     siteconfig
