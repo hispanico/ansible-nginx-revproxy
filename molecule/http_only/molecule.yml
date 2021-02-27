@@ -4,13 +4,9 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
 platforms:
-  - name: "${ROLE_NAME:-instance}-${MOLECULE_DISTRO}"
-    image: "geerlingguy/docker-${MOLECULE_DISTRO}-ansible:${tag:-latest}"
+  - name: instance
+    image: "geerlingguy/docker-${MOLECULE_DISTRO}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -20,9 +16,3 @@ provisioner:
   name: ansible
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
-  config_options:
-    defaults:
-      stdout_callback: yaml
-      bin_ansible_callbacks: yes
-verifier:
-  name: ansible

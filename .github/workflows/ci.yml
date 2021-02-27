@@ -43,6 +43,7 @@ jobs:
     needs:
       - lint
     strategy:
+      fail-fast: false
       matrix:
         distro:
           - ubuntu2004

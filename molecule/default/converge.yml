@@ -23,5 +23,15 @@
         cache_valid_time: 600
       when: ansible_distribution == 'Ubuntu'
 
+    - name: Enable certbot-auto on Ubuntu 16.04
+      set_fact:
+        nginx_revproxy_certbot_auto: true
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '16'
+
+    - name: Enable certbot-auto on Debian 9
+      set_fact:
+        nginx_revproxy_certbot_auto: true
+      when: ansible_distribution == 'Debian' and ansible_distribution_major_version == '9'
+
   roles:
     - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
