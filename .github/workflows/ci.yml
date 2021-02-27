@@ -40,6 +40,8 @@ jobs:
   molecule:
     name: Molecule
     runs-on: ubuntu-latest
+    needs:
+      - lint
     strategy:
       matrix:
         distro:
