@@ -16,7 +16,3 @@ nginx_revproxy_sites:                                         # List of sites to
     letsencrypt_email: ""                                     # Set email for letencrypt cert
 
 nginx_revproxy_certbot_auto: false
-
-nginx_revproxy_certbot_packages:
-  - certbot
-  - python3-certbot-nginx

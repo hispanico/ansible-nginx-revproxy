@@ -36,6 +36,7 @@ nginx_revproxy_sites:                                         # List of sites to
     listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
+    conn_upgrade: true                                        # Set the Connection upgrade header values
 
   example.org:                                                # Domain name
     domains:                                                  # List of server_name aliases

@@ -1,2 +1,5 @@
 ---
-# vars file for roles/ansible-nginx-revproxy
+
+nginx_revproxy_certbot_packages:
+  - certbot
+  - python3-certbot-nginx
