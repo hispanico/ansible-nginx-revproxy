@@ -1,7 +1,8 @@
 ---
 
 galaxy_info:
-  author: Hispanico
+  role_name: nginx-revproxy
+  author: hispanico
   description: Manage Nginx as Reverse Proxy
   license: GPLv3
 
