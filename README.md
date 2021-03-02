@@ -1,4 +1,4 @@
-ansible-role-nginx_revproxy
+Ansible Role: NginxReverseProxy
 =========
 
 Install and configures Nginx as reverse proxy for multiple website.
