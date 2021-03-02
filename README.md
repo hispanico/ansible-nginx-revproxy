@@ -1,11 +1,11 @@
-ansible-nginx-revproxy
+ansible-role-nginx_revproxy
 =========
 
 Install and configures Nginx as reverse proxy for multiple website.
 
 |GitHub|Quality|Downloads|Galaxy|Version|
 |------|-------|---------|-------|-------|
-|[![CI](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml/badge.svg)](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml)|[![quality](https://img.shields.io/ansible/quality/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![downloads](https://img.shields.io/ansible/role/d/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx_revproxy-blue.svg)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Version](https://img.shields.io/github/release/hispanico/ansible-nginx-revproxy.svg)](https://github.com/hispanico/ansible-nginx-revproxy/releases/)|
+|[![CI](https://github.com/hispanico/ansible-role-nginx_revproxy/actions/workflows/ci.yml/badge.svg)](https://github.com/hispanico/ansible-role-nginx_revproxy/actions/workflows/ci.yml)|[![quality](https://img.shields.io/ansible/quality/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![downloads](https://img.shields.io/ansible/role/d/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx_revproxy-blue.svg)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Version](https://img.shields.io/github/release/hispanico/ansible-role-nginx_revproxy.svg)](https://github.com/hispanico/ansible-role-nginx_revproxy/releases/)|
 
 Requirements
 ------------
@@ -35,7 +35,7 @@ nginx_revproxy_sites:                                         # List of sites to
       password: mysecretpassword
     listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     ssl: false                                                # Set to True if you want to redirect http to https
-    letsencrypt: false                                        # Set to True if you are using hispanico.letsencrypt-nginx-revproxy role
+    letsencrypt: false                                        # Set to True if you want to use letsencrypt
     conn_upgrade: true                                        # Set the Connection upgrade header values
 
   example.org:                                                # Domain name
@@ -71,7 +71,7 @@ Example Playbook
 ```yaml
   - hosts: all
     roles:
-      - hispanico.nginx-revproxy
+      - hispanico.nginx_revproxy
     vars:
       nginx_revproxy_sites:
         default:
