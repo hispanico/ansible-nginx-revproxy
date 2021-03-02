@@ -5,7 +5,7 @@ Install and configures Nginx as reverse proxy for multiple website.
 
 |GitHub|Quality|Downloads|Galaxy|Version|
 |------|-------|---------|-------|-------|
-|[![CI](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml/badge.svg)](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml)|[![quality](https://img.shields.io/ansible/quality/19794)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![downloads](https://img.shields.io/ansible/role/d/19794)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx_revproxy-blue.svg)](https://galaxy.ansible.com/hispanico/nginx_revproxy/19794)|[![Version](https://img.shields.io/github/release/hispanico/ansible-nginx-revproxy.svg)](https://github.com/hispanico/ansible-nginx-revproxy/releases/)|
+|[![CI](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml/badge.svg)](https://github.com/hispanico/ansible-nginx-revproxy/actions/workflows/ci.yml)|[![quality](https://img.shields.io/ansible/quality/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![downloads](https://img.shields.io/ansible/role/d/53382)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Galaxy](https://img.shields.io/badge/galaxy-hispanico.nginx_revproxy-blue.svg)](https://galaxy.ansible.com/hispanico/nginx_revproxy)|[![Version](https://img.shields.io/github/release/hispanico/ansible-nginx-revproxy.svg)](https://github.com/hispanico/ansible-nginx-revproxy/releases/)|
 
 Requirements
 ------------
