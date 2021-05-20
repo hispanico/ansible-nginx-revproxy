@@ -69,7 +69,6 @@ server {
    access_log /var/log/nginx/{{ item.key }}_access.log;
    error_log /var/log/nginx/{{ item.key }}_error.log error;
 
-   ssl on;
 {% if not __skip_letsencrypt | default(false) and item.value.letsencrypt is defined and item.value.letsencrypt %}
    ssl_certificate /etc/letsencrypt/live/{{ item.key }}/fullchain.pem;
    ssl_certificate_key /etc/letsencrypt/live/{{ item.key }}/privkey.pem;
