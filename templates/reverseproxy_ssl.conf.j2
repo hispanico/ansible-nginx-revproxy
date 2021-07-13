@@ -66,6 +66,12 @@ server {
    add_header Strict-Transport-Security "max-age={{ item.value.hsts_max_age }}; includeSubDomains; preload" always;
 {% endif %}
 
+{% if item.value.allow_cors is defined and item.value.allow_cors %}
+   add_header 'Access-Control-Allow-Origin' $http_origin;
+   add_header 'Access-Control-Max-Age' 1728000;
+{% endif %}
+
+
    access_log /var/log/nginx/{{ item.key }}_access.log;
    error_log /var/log/nginx/{{ item.key }}_error.log error;
 

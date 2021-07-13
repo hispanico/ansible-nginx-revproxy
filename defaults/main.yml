@@ -14,6 +14,7 @@ nginx_revproxy_sites:                                         # List of sites to
     hsts_max_age: 63072000                                    # Set HSTS header with max-age defined
     letsencrypt: false                                        # Set to True if you want use letsencrypt
     letsencrypt_email: ""                                     # Set email for letencrypt cert
+    allow_cors: false                                         # Set to True if you want to allow Cross-Origin requests
 
 nginx_revproxy_certbot_auto: false
 

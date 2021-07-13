@@ -27,6 +27,11 @@ server {
    listen    [::]:{{ item.value.listen | default(80) }};
    server_name    {{ item.value.domains | join(' ') }};
 
+{% if item.value.allow_cors is defined and item.value.allow_cors %}
+   add_header 'Access-Control-Allow-Origin' $http_origin;
+   add_header 'Access-Control-Max-Age' 1728000;
+{% endif %}
+
    location / {
       gzip off;
       client_max_body_size {{ item.value.client_max_body_size | default('50M') }};
