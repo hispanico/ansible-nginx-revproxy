@@ -125,6 +125,7 @@
   notify: Reload Nginx
   when:
     - item not in nginx_revproxy_sites
+    - nginx_revproxy_de_activate_sites
   tags:
     - nginxrevproxy
 
@@ -187,6 +188,7 @@
   notify: Reload Nginx
   when:
     - item not in nginx_revproxy_sites
+    - nginx_revproxy_remove_webroot_sites
   tags:
     - nginxrevproxy
 

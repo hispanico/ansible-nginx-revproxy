@@ -16,3 +16,9 @@ nginx_revproxy_sites:                                         # List of sites to
     letsencrypt_email: ""                                     # Set email for letencrypt cert
 
 nginx_revproxy_certbot_auto: false
+
+# Remove WebRoot Sites
+nginx_revproxy_remove_webroot_sites: true
+
+# De-activate Sites
+nginx_revproxy_de_activate_sites: true
