@@ -29,7 +29,7 @@ server {
 
 {% if item.value.allow_cors is defined and item.value.allow_cors %}
    add_header 'Access-Control-Allow-Origin' $http_origin;
-   add_header 'Access-Control-Max-Age' 1728000;
+   add_header 'Access-Control-Max-Age' 600;
 {% endif %}
 
    location / {
