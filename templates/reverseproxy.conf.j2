@@ -35,7 +35,7 @@ server {
 {% if item.value.conn_upgrade is not defined or item.value.conn_upgrade %}
       proxy_set_header Connection "upgrade";
 {% endif %}
-      proxy_set_header Host $http_host;
+      proxy_set_header Host {{ item.value.upstream_hostname | default('$http_host') }};
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
