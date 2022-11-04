@@ -33,6 +33,10 @@ nginx_revproxy_sites:                                         # List of sites to
     auth:                                                     # Define this block for a single HTTP user/password, or leave undefined for unauthenticated vhosts
       login: myusername
       password: mysecretpassword
+    extra_location:                                           # Set this block to add extra location, or leave it undefined for non extra location needed
+      websocket:                                              # extra location name
+        upstreams:                                            # list of upstreans for extra location
+          - { backend_address: 192.168.0.102, backend_port: 8088 }
     listen: 9000                                              # Specify which port you want to listen to with clear HTTP, or leave undefined for 80
     ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you want to use letsencrypt

@@ -22,6 +22,16 @@ upstream {{ item.key }}_backend  {
 {% endfor %}
 }
 
+{% if item.value.extra_locations is defined %}
+{% for extra_location in item.value.extra_locations %}
+upstream {{ item.key }}_{{ extra_location }}_backend  {
+{% for extra_upstream in item.value.extra_locations[extra_location].upstreams %}
+   server {{ extra_upstream.backend_address }}:{{ extra_upstream.backend_port }};
+{% endfor %}
+}
+{% endfor %}
+{% endif %}
+
 server {
    listen         {{ item.value.listen | default(80) }};
    listen    [::]:{{ item.value.listen | default(80) }};
@@ -46,6 +56,25 @@ server {
       auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
 {% endif %}
    }
+
+{% if item.value.extra_locations is defined %}
+{% for extra_location in item.value.extra_locations %}
+   location /{{ extra_location }} {
+      gzip off;
+      client_max_body_size {{ item.value.client_max_body_size | default('50M') }};
+      proxy_read_timeout {{ item.value.proxy_read_timeout | default('300') }};
+      proxy_pass http://{{ item.key }}_{{ extra_location }}_backend;
+      proxy_http_version  1.1;
+      proxy_set_header        Upgrade $http_upgrade;
+{% if item.value.conn_upgrade is not defined or item.value.conn_upgrade %}
+      proxy_set_header        Connection "upgrade";
+{% endif %}
+      proxy_set_header        Host $http_host;
+      proxy_set_header        X-Real-IP $remote_addr;
+   }
+
+{% endfor %}
+{% endif %}
 
    location /.well-known {
       alias /var/www/{{ item.key }}/.well-known;
