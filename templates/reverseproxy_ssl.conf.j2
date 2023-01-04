@@ -87,6 +87,11 @@ server {
    }
 
    location / {
+{% for acl in item.value.acls | default({}) %}
+{% if acl.mode == 'allow' or acl.mode == 'deny' %}
+      {{ acl.mode | default('deny') }} {{ acl.value }};
+{% endif %}
+{% endfor %}
       gzip off;
       proxy_set_header X-Forwarded-Ssl on;
       client_max_body_size {{ item.value.client_max_body_size | default('50M') }};

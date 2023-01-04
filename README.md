@@ -37,6 +37,9 @@ nginx_revproxy_sites:                                         # List of sites to
     ssl: false                                                # Set to True if you want to redirect http to https
     letsencrypt: false                                        # Set to True if you want to use letsencrypt
     conn_upgrade: true                                        # Set the Connection upgrade header values
+    acls:                                                     # Limit access to certain client addresses (values can be address, CIDR, unix or all)
+      - { mode: allow, value: 192.168.0.1 }
+      - { mode: deny, value: all }
 
   example.org:                                                # Domain name
     domains:                                                  # List of server_name aliases
