@@ -83,6 +83,7 @@
     group: root
     mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
+  notify: Reload Nginx
   register:
     siteconfig
   when:
@@ -100,6 +101,7 @@
     group: root
     mode: 0640
   with_dict: "{{ nginx_revproxy_sites }}"
+  notify: Reload Nginx
   register:
     siteconfig
   when:
