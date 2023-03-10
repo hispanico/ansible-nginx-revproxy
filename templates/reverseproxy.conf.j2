@@ -28,6 +28,11 @@ server {
    server_name    {{ item.value.domains | join(' ') }};
 
    location / {
+{% for acl in item.value.acls | default({}) %}
+{% if acl.mode == 'allow' or acl.mode == 'deny' %}
+      {{ acl.mode | default('deny') }} {{ acl.value }};
+{% endif %}
+{% endfor %}
       gzip off;
       client_max_body_size {{ item.value.client_max_body_size | default('50M') }};
       proxy_read_timeout {{ item.value.proxy_read_timeout | default('300') }};
