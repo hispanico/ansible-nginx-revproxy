@@ -33,7 +33,7 @@ nginx_revproxy_sites:                                         # List of sites to
     auth:                                                     # Define this block for a single HTTP user/password, or leave undefined for unauthenticated vhosts
       login: myusername
       password: mysecretpassword
-    extra_location:                                           # Set this block to add extra location, or leave it undefined for non extra location needed
+    extra_locations:                                           # Set this block to add extra location, or leave it undefined for non extra location needed
       websocket:                                              # extra location name
         upstreams:                                            # list of upstreans for extra location
           - { backend_address: 192.168.0.102, backend_port: 8088 }
