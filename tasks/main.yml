@@ -88,8 +88,8 @@
     siteconfig
   when:
     - nginxinstalled is success
-    - not item.value.ssl | default(True)
-    - not item.value.letsencrypt | default(True)
+    - not item.value.ssl | default(False)
+    - not item.value.letsencrypt | default(False)
   tags:
     - nginxrevproxy
 
@@ -107,7 +107,7 @@
   when:
     - nginxinstalled is success
     - item.value.ssl | default(False)
-    - not item.value.letsencrypt | default(True)
+    - not item.value.letsencrypt | default(False)
   tags:
     - nginxrevproxy
 
@@ -140,7 +140,7 @@
   notify: Reload Nginx
   when:
     - siteconfig is success
-    - not item.value.letsencrypt | default(True)
+    - not item.value.letsencrypt | default(False)
     - not ansible_check_mode
   tags:
     - nginxrevproxy
