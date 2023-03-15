@@ -10,7 +10,7 @@ nginx_revproxy_sites:                                         # List of sites to
     upstreams:                                                # List of Upstreams
       - {backend_address: 192.168.0.100, backend_port: 80}
       - {backend_address: 192.168.0.101, backend_port: 8080}
-    # extra_location:
+    # extra_locations:
     #   websocket:
     #     upstreams:
     #       - {backend_address: 192.168.0.102, backend_port: 8088}
