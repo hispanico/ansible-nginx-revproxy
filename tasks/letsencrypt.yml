@@ -75,7 +75,7 @@
   command: |
     certbot{{ '-auto' if nginx_revproxy_certbot_auto else '' }} certonly
     --webroot -w /var/www/{{ item.key }}
-    -d {{ item.value.domains | join(' -d ') }}
+    -d {{ item.value.domains.value | join(' -d ') }}
     --email {{ item.value.letsencrypt_email }}
     --non-interactive --cert-name {{ item.key }}
     --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
