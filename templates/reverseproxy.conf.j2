@@ -37,6 +37,11 @@ server {
    listen    [::]:{{ item.value.listen | default(80) }};
    server_name    {{ item.value.domains | join(' ') }};
 
+{% if item.value.allow_cors is defined and item.value.allow_cors %}
+   add_header 'Access-Control-Allow-Origin' $http_origin;
+   add_header 'Access-Control-Max-Age' 600;
+{% endif %}
+
    location / {
 {% for acl in item.value.acls | default({}) %}
 {% if acl.mode == 'allow' or acl.mode == 'deny' %}
@@ -48,6 +53,7 @@ server {
       proxy_read_timeout {{ item.value.proxy_read_timeout | default('300') }};
       proxy_set_header Upgrade $http_upgrade;
 {% if item.value.conn_upgrade is not defined or item.value.conn_upgrade %}
+      proxy_http_version 1.1;
       proxy_set_header Connection "upgrade";
 {% endif %}
       proxy_set_header Host $http_host;

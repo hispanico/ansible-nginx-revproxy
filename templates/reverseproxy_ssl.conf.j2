@@ -76,6 +76,11 @@ server {
    add_header Strict-Transport-Security "max-age={{ item.value.hsts_max_age }}; includeSubDomains; preload" always;
 {% endif %}
 
+{% if item.value.allow_cors is defined and item.value.allow_cors %}
+   add_header 'Access-Control-Allow-Origin' $http_origin;
+   add_header 'Access-Control-Max-Age' 600;
+{% endif %}
+
    access_log /var/log/nginx/{{ item.key }}_access.log;
    error_log /var/log/nginx/{{ item.key }}_error.log error;
 
@@ -108,6 +113,7 @@ server {
       proxy_read_timeout {{ item.value.proxy_read_timeout | default('300') }};
       proxy_set_header Upgrade $http_upgrade;
 {% if item.value.conn_upgrade is not defined or item.value.conn_upgrade %}
+      proxy_http_version 1.1;
       proxy_set_header Connection "upgrade";
 {% endif %}
       proxy_set_header Host $http_host;
