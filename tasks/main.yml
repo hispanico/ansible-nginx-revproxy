@@ -1,7 +1,7 @@
 ---
 
 - name: Install Nginx and ssl-cert
-  apt:
+  ansible.builtin.apt:
     name:
       - nginx
       - ssl-cert
@@ -16,7 +16,7 @@
     - packages
 
 - name: Install python-passlib for Python 3 hosts
-  apt:
+  ansible.builtin.apt:
     name:
       - "python3-passlib"
     state: present
@@ -32,7 +32,7 @@
     - ansible_python['version']['major'] == 3
 
 - name: Install python-passlib for Python 2 hosts
-  apt:
+  ansible.builtin.apt:
     name:
       - "python-passlib"
     state: present
@@ -48,7 +48,7 @@
     - ansible_python['version']['major'] == 2
 
 - name: Set up nginx directories
-  file:
+  ansible.builtin.file:
     path: "/etc/nginx/{{ item }}"
     state: directory
     owner: root
@@ -61,7 +61,7 @@
     - nginxrevproxy
 
 - name: Add authentication
-  htpasswd:
+  community.general.htpasswd:
     path: "/etc/nginx/{{ item.key }}_htpasswd"
     name: "{{ item.value.auth.login }}"
     password: "{{ item.value.auth.password }}"
@@ -76,7 +76,7 @@
     - nginxrevproxy
 
 - name: Add Site Config
-  template:
+  ansible.builtin.template:
     src: reverseproxy.conf.j2
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
@@ -94,7 +94,7 @@
     - nginxrevproxy
 
 - name: Add Https Site Config
-  template:
+  ansible.builtin.template:
     src: reverseproxy_ssl.conf.j2
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
@@ -112,7 +112,7 @@
     - nginxrevproxy
 
 - name: Get Active Sites
-  command: ls -1 /etc/nginx/sites-enabled/
+  ansible.builtin.command: ls -1 /etc/nginx/sites-enabled/
   changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()|sort()"
   check_mode: false
   register: active
@@ -120,7 +120,7 @@
     - nginxrevproxy
 
 - name: De-activate Sites
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/{{ item }}
     state: absent
   with_items: "{{ active.stdout_lines }}"
@@ -132,7 +132,7 @@
     - nginxrevproxy
 
 - name: Enable Site Config
-  file:
+  ansible.builtin.file:
     src: /etc/nginx/sites-available/{{ item.key }}.conf
     dest: /etc/nginx/sites-enabled/{{ item.key }}
     state: link
@@ -146,7 +146,7 @@
     - nginxrevproxy
 
 - name: Create WebRoot sites
-  file:
+  ansible.builtin.file:
     dest: /var/www/{{ item.key }}/.well-known
     mode: 0775
     state: directory
@@ -160,7 +160,7 @@
     - nginxrevproxy
 
 - name: WebRoot Permissions Sites
-  file:
+  ansible.builtin.file:
     dest: /var/www/{{ item.key }}
     mode: 0775
     state: directory
@@ -175,7 +175,7 @@
     - nginxrevproxy
 
 - name: Get WebRoot Sites
-  command: ls -1 /var/www/
+  ansible.builtin.command: ls -1 /var/www/
   changed_when: "webroot.stdout_lines != nginx_revproxy_sites.keys()|sort()"
   check_mode: false
   register: webroot
@@ -183,7 +183,7 @@
     - nginxrevproxy
 
 - name: Remove WebRoot Sites
-  file:
+  ansible.builtin.file:
     path: /var/www/{{ item }}/
     state: absent
   with_items: "{{ webroot.stdout_lines }}"
@@ -194,7 +194,8 @@
   tags:
     - nginxrevproxy
 
-- include_tasks: letsencrypt.yml
+- name: Setup letsencrypt
+  ansible.builtin.include_tasks: letsencrypt.yml
   tags:
     - lesencrypt
     - nginxrevproxy

@@ -6,7 +6,7 @@
 
   pre_tasks:
     - name: Install net-tools (RedHat).
-      yum:
+      ansible.builtin.dnf:
         name:
           - net-tools
           - ps
@@ -14,7 +14,7 @@
       when: ansible_os_family == 'RedHat'
 
     - name: Install net-tools (Debian).
-      apt:
+      ansible.builtin.apt:
         name:
           - net-tools
           - procps
@@ -23,11 +23,11 @@
 
   tasks:
     - name: Check if nginx is running
-      command: systemctl status nginx
+      ansible.builtin.command: systemctl status nginx
       changed_when: false
 
     - name: Check nginx configuration
-      command: nginx -c /etc/nginx/nginx.conf -t
+      ansible.builtin.command: nginx -c /etc/nginx/nginx.conf -t
       changed_when: false
 
     - name: Check if nginx listening on ports 80

@@ -1,7 +1,7 @@
 ---
 
 - name: Install certbot-auto
-  get_url:
+  ansible.builtin.get_url:
     url: https://dl.eff.org/certbot-auto
     dest: /usr/bin/certbot-auto
     mode: "a+x"
@@ -11,7 +11,7 @@
     - nginxrevproxy
 
 - name: Install certbot from repository
-  apt:
+  ansible.builtin.apt:
     name: "{{ nginx_revproxy_certbot_packages }}"
     state: present
   when: not nginx_revproxy_certbot_auto
@@ -20,7 +20,7 @@
     - nginxrevproxy
 
 - name: Get Active Sites
-  command: ls -1 /etc/nginx/sites-enabled/
+  ansible.builtin.command: ls -1 /etc/nginx/sites-enabled/
   changed_when: "active.stdout_lines != nginx_revproxy_sites.keys()|sort()"
   check_mode: false
   register: active
@@ -29,9 +29,15 @@
     - nginxrevproxy
 
 - name: Enable sites for ACME protocol
+  when:
+    - active.changed
+    - nginxinstalled is success
+  tags:
+    - lesencrypt
+    - nginxrevproxy
   block:
     - name: Add Https Site Config
-      template:
+      ansible.builtin.template:
         src: reverseproxy_ssl.conf.j2
         dest: /etc/nginx/sites-available/{{ item.key }}.conf
         owner: root
@@ -46,7 +52,7 @@
         - item.key not in active.stdout_lines
 
     - name: Enable Site Config
-      file:
+      ansible.builtin.file:
         src: /etc/nginx/sites-available/{{ item.key }}.conf
         dest: /etc/nginx/sites-enabled/{{ item.key }}
         state: link
@@ -59,26 +65,21 @@
         - item.key not in active.stdout_lines
 
     - name: Reload Nginx
-      service:
+      ansible.builtin.service:
         name: nginx
         state: reloaded
       when:
         - site_enabled is success
-  when:
-    - active.changed
-    - nginxinstalled is success
-  tags:
-    - lesencrypt
-    - nginxrevproxy
 
 - name: Generate certs (first time)
-  command: |
-    certbot{{ '-auto' if nginx_revproxy_certbot_auto else '' }} certonly
-    --webroot -w /var/www/{{ item.key }}
-    -d {{ item.value.domains | join(' -d ') }}
-    --email {{ item.value.letsencrypt_email }}
-    --non-interactive --cert-name {{ item.key }}
-    --agree-tos creates=/etc/letsencrypt/live/{{ item.key }}/fullchain.pem
+  ansible.builtin.command: 
+    cmd: certbot{{ '-auto' if nginx_revproxy_certbot_auto else '' }} certonly
+      --webroot -w /var/www/{{ item.key }}
+      -d {{ item.value.domains | join(' -d ') }}
+      --email {{ item.value.letsencrypt_email }}
+      --non-interactive --cert-name {{ item.key }}
+      --agree-tos 
+    creates: /etc/letsencrypt/live/{{ item.key }}/fullchain.pem
   with_dict: "{{ nginx_revproxy_sites }}"
   when: item.value.letsencrypt | default(False)
   tags:
@@ -86,7 +87,7 @@
     - nginxrevproxy
 
 - name: Update Site Config
-  template:
+  ansible.builtin.template:
     src: reverseproxy_ssl.conf.j2
     dest: /etc/nginx/sites-available/{{ item.key }}.conf
     owner: root
@@ -101,7 +102,7 @@
     - nginxrevproxy
 
 - name: Insert cert-bot renew in crontab
-  cron:
+  ansible.builtin.cron:
     name: "cert-bot renew"
     job: "certbot{{ '-auto' if nginx_revproxy_certbot_auto else '' }} \
 renew --post-hook \"systemctl reload nginx\" >> /var/log/letsencrypt/letsencrypt-update.log 2>&1"

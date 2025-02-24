@@ -1,16 +1,16 @@
 ---
 
 - name: Start Nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: started
 
 - name: Reload Nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded
 
 - name: Restart Nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: restarted
