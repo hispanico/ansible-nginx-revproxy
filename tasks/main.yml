@@ -29,7 +29,7 @@
     - nginxrevproxy
     - packages
   when:
-    - ansible_python['version']['major'] == 3
+    - ansible_facts['python']['version']['major'] == 3
 
 - name: Install python-passlib for Python 2 hosts
   apt:
@@ -45,7 +45,7 @@
     - nginxrevproxy
     - packages
   when:
-    - ansible_python['version']['major'] == 2
+    - ansible_facts['python']['version']['major'] == 2
 
 - name: Set up nginx directories
   file:

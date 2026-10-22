@@ -11,7 +11,7 @@
           - net-tools
           - ps
         state: present
-      when: ansible_os_family == 'RedHat'
+      when: ansible_facts['os_family'] == 'RedHat'
 
     - name: Install net-tools (Debian).
       apt:
@@ -19,7 +19,7 @@
           - net-tools
           - procps
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
 
   tasks:
     - name: Check if nginx is running
